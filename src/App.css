@@ -1,0 +1,25 @@
+*, *::before, *::after {
+  box-sizing: border-box; /* Применяется ко всем элементам и псевдоэлементам */
+margin:0;
+padding:0;
+}
+li,ol, ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+input {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 1px solid;
+  padding: 0.5em;
+  box-sizing: border-box;
+  border-radius: 0.25em;
+}
+
+input:focus {
+  outline: 2px solid;
+  outline-offset: 2px;
+}
