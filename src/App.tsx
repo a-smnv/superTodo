@@ -1,5 +1,7 @@
 import { useState } from "react";
 import "./App.css";
+import backgroundImg from "./assets/background_img.jpg";
+import TodoItem from "./components/todoItem/TodoItem";
 
 type Todo = {
   id: number;
@@ -41,7 +43,20 @@ function App() {
     setTodoList(todoList.filter((todo) => todo.id !== id));
   };
   return (
-    <div style={{ maxWidth: "500px", margin: "0 auto", padding: "20px" }}>
+    <div
+      style={{
+        // maxWidth: "500px",
+        // margin: "0 auto",
+        width:'100vw',
+        height:'100vh',
+        padding: "20px",
+        backgroundImage: `url(${backgroundImg})`,
+        backgroundSize: "cover",
+        backgroundPosition:'center',
+        backgroundRepeat:'no-repeat'
+      }}
+    >
+      <div style={{maxWidth: "500px",margin: '50px auto 0 auto'}}>
       <h1> To-Do List</h1>
       <div style={{ margin: "20px 0 20px" }}>
         <input
@@ -57,33 +72,16 @@ function App() {
       </div>
       <ul>
         {todoList.map((todo) => (
-          <li key={todo.id}>
-            <div>
-              <input
-                type="checkbox"
-                checked={todo.completed}
-                onChange={() => togleTodo(todo.id)}
-                   style={{ marginRight: '10px' }}
-              />
-              <span> {todo.text}</span>
-            </div>
-            <button
-              onClick={() => deleteTodo(todo.id)}
-              style={{
-                background: "#ff4444",
-                color: "white",
-                border: "none",
-                padding: "5px 10px",
-                borderRadius: "3px",
-                cursor: "pointer",
-                margin:'10px 0 10px'
-              }}
-            >
-              Delete
-            </button>
-          </li>
+          <TodoItem
+          key={todo.id}
+          todo={todo}
+          onToggle={togleTodo}
+          onDelete={deleteTodo}
+          />
+          
         ))}
       </ul>
+      </div>
     </div>
   );
 }
