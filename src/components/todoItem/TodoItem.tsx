@@ -1,9 +1,7 @@
+import type { ITodo } from '../../types/todo';
+
 type TodoItemProps = {
-  todo: {
-    id: number;
-    text: string;
-    completed: boolean;
-  };
+todo:ITodo;
   onToggle: (id: number) => void;
   onDelete: (id: number) => void;
 };
