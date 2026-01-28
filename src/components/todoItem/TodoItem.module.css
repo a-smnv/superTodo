@@ -1,0 +1,43 @@
+.todoItem{
+    margin-bottom: "10px";
+    margin-top: 8px;
+        padding: "10px";
+        background: "#f5f5f5";
+        border-radius: "8px";
+        display: "flex";
+        justify-content: "space-between";
+        align-items: "center";
+  /* box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: all 0.3s ease; */
+}
+
+.todoItem:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.todoContent {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.completed {
+  text-decoration: line-through;
+  color: #888;
+  opacity: 0.7;
+}
+
+.deleteButton {
+  background: #ff4444;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  margin-top: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.deleteButton:hover {
+  background: #cc0000;
+}

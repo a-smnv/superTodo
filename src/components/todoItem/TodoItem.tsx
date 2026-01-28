@@ -1,4 +1,5 @@
 import type { ITodo } from '../../types/todo';
+import styles from './TodoItem.module.css'
 
 type TodoItemProps = {
 todo:ITodo;
@@ -9,17 +10,8 @@ todo:ITodo;
 function TodoItem({ todo, onToggle, onDelete }: TodoItemProps) {
   return (
     <li
-      style={{
-        marginBottom: "10px",
-        padding: "10px",
-        background: "#f5f5f5",
-        borderRadius: "5px",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-    >
-      <div>
+     className={styles.todoItem}>
+      <div className={styles.todoContent}>
         <input
           type="checkbox"
           checked={todo.completed}
@@ -27,25 +19,14 @@ function TodoItem({ todo, onToggle, onDelete }: TodoItemProps) {
           style={{ marginRight: "10px" }}
         />
         <span
-          style={{
-            textDecoration: todo.completed ? "line-through" : "none",
-            color: todo.completed ? "#888" : "#000",
-          }}
+          className={todo.completed ? styles.completed : ''}
         >
           {todo.text}
         </span>
       </div>
       <button
         onClick={() => onDelete(todo.id)}
-        style={{
-          background: "#ff4444",
-          color: "white",
-          border: "none",
-          padding: "5px 10px",
-          borderRadius: "3px",
-          cursor: "pointer",
-          margin: "10px 0 10px",
-        }}
+        className={styles.deleteButton}
       >
         Delete
       </button>
