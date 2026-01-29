@@ -23,3 +23,7 @@ input:focus {
   outline: 2px solid;
   outline-offset: 2px;
 }
+
+button {
+   padding: 8px 16px;
+}

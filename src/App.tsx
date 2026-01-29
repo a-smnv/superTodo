@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import backgroundImg from "./assets/background_img.jpg";
 import TodoItem from "./components/todoItem/TodoItem";
+import type { FilterType } from "./types/todo";
 
 type Todo = {
   id: number;
@@ -10,6 +11,9 @@ type Todo = {
 };
 
 function App() {
+  //состояние для фильтра
+  const[filter, setFilter]= useState<FilterType>('all')
+  
   //состояние для списка задач
   const [todoList, setTodoList] = useState<Todo[]>([
     { id: 1, text: "Learn React", completed: false },
@@ -30,6 +34,18 @@ function App() {
     setTodoList([...todoList, todo]);
     setNewTodo("");
   };
+
+  const handleKeyPress=(e: React.KeyboardEvent)=>{
+    if(e.key === 'Enter'){
+      addTodo();
+    }
+  }
+   // Функция для фильтрации
+const filteredTodos = todoList.filter(todo=>{
+  if(filter === 'active') return !todo.completed;
+   if (filter === 'completed') return todo.completed;
+   return true;
+})
   // Переключение статуса выполнения
   const togleTodo = (id: number) => {
     setTodoList(
@@ -42,6 +58,11 @@ function App() {
   const deleteTodo = (id: number) => {
     setTodoList(todoList.filter((todo) => todo.id !== id));
   };
+
+//Статистика
+const activeCount =  todoList.filter(todo=>!todo.completed).length
+const completedCount = todoList.filter(todo=>todo.completed).length
+
   return (
     <div
       style={{
@@ -63,15 +84,53 @@ function App() {
           type="text"
           value={newTodo}
           onChange={(e) => setNewTodo(e.target.value)}
+          onKeyDown={handleKeyPress}
           placeholder="New todo..."
           style={{ padding: "8px", marginRight: "10px", width: "300px" }}
         />
-        <button onClick={addTodo} style={{ padding: "8px 16px" }}>
+        <div style={{ margin: '20px 0 ', display: 'flex', gap: '10px' }}>
+          <button onClick={addTodo} >
           Add
         </button>
+        <button onClick={()=> setFilter('all')} style={{ 
+            padding: '8px 16px',
+            background: filter === 'all' ? '#2196F3' : '#f0f0f0',
+            color: filter === 'all' ? 'white' : '#333',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer'
+          }}>All ({todoList.length})</button>
+        <button onClick={()=> setFilter('active')} style={{ 
+            padding: '8px 16px',
+            background: filter === 'active' ? '#2196F3' : '#f0f0f0',
+            color: filter === 'active' ? 'white' : '#333',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer'
+          }}>Active ({activeCount})</button>
+        <button onClick={()=> setFilter('completed')}    style={{ 
+            padding: '8px 16px',
+            background: filter === 'completed' ? '#2196F3' : '#f0f0f0',
+            color: filter === 'completed' ? 'white' : '#333',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer'
+          }}>Completed ({completedCount})</button>
+        </div>
       </div>
-      <ul>
-        {todoList.map((todo) => (
+      {filteredTodos.length===0 ?(<div style={{
+          textAlign: 'center',
+          padding: '40px',
+          color: '#888',
+          fontSize: '18px',
+          background: '#f9f9f9',
+          borderRadius: '8px'
+        }}>
+          {filter === 'all' && 'Нет задач. Добавьте первую!'}
+          {filter === 'active' && 'Нет активных задач 🎉'}
+          {filter === 'completed' && 'Нет завершенных задач'}
+        </div>):(<ul>
+        {filteredTodos.map((todo) => (
           <TodoItem
           key={todo.id}
           todo={todo}
@@ -80,7 +139,8 @@ function App() {
           />
           
         ))}
-      </ul>
+      </ul>)}
+      
       </div>
     </div>
   );
