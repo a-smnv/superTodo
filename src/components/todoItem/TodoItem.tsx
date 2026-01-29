@@ -28,7 +28,7 @@ function TodoItem({ todo, onToggle, onDelete }: TodoItemProps) {
         onClick={() => onDelete(todo.id)}
         className={styles.deleteButton}
       >
-        Delete
+        Delete test
       </button>
     </li>
   );
