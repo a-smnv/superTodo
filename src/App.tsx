@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import backgroundImg from "./assets/background_img.jpg";
 import TodoItem from "./components/todoItem/TodoItem";
@@ -15,10 +15,21 @@ function App() {
   const[filter, setFilter]= useState<FilterType>('all')
   
   //состояние для списка задач
-  const [todoList, setTodoList] = useState<Todo[]>([
-    { id: 1, text: "Learn React", completed: false },
-    { id: 2, text: "Write Todo App", completed: false },
-  ]);
+  const [todoList, setTodoList] = useState<Todo[]>(()=>{
+      const savedTodos = localStorage.getItem('todos');
+    if (savedTodos) {
+      try {
+        return JSON.parse(savedTodos);
+      } catch(error) {
+        console.error('Error loading data from localStorage', error);
+      }
+    }
+    // Только возвращаем начальные данные, НЕ сохраняем в localStorage
+    return [
+      { id: 1, text: "Learn React", completed: false },
+      { id: 2, text: "Write Todo App", completed: false },
+    ];
+  });
   //состояние для нового текста задачи
   const [newTodo, setNewTodo] = useState("");
 
@@ -63,7 +74,16 @@ const filteredTodos = todoList.filter(todo=>{
 const activeCount =  todoList.filter(todo=>!todo.completed).length
 const completedCount = todoList.filter(todo=>todo.completed).length
 
-  return (
+  // Эффект для сохранения в localStorage при каждом изменении todoList
+ useEffect(() => {
+    localStorage.setItem('todos', JSON.stringify(todoList));
+    console.log('Задачи сохранены в localStorage:', todoList);
+  }, [todoList]);// Зависимость: todoList - эффект запускается при каждом изменении todos
+
+  // Временно, для отладки
+console.log('Current todoList:', todoList);
+console.log('LocalStorage content:', localStorage.getItem('todos'));  
+return (
     <div
       style={{
         // maxWidth: "500px",
